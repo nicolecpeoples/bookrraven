@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<div id="wrapper">
+		<div id="landing_menu">
+			<h1>BookrRaven</h1>
+			<div class="landing_menu_option" id="login">
+				<h4>Yo! Welcome Back!</h4>
+				<form action="{% url 'brr-login' %}">
+					{% csrf_token %}
+					{{ logform.as_p }}
+					<input type="submit" value="Login">
+				</form>
+			</div>
+			<div class="landing_menu_option" id="register">
+				<h4>Yo! Get. On. Board!</h4>
+				<form action="{% url 'brr-register' %}" method="post">
+					{% csrf_token %}
+					{{ regform.as_p }}
+					<input type="submit" value="Register"/>
+				</form>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>
