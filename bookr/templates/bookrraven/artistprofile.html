@@ -1,22 +1,33 @@
 {% include 'bookrraven/header_logged_out.html'  %}
 	<div id="wrapper">
-		<div>
-			<a href=""><button>Book Me!</button></a>
-			<!-- Artists will need their info passed, as well as a few forms i believe -->
-			<form action="{% url 'users:login' %}" method="post">
-				  {% csrf_token %}
-				  <select name="venue_name">
-				  	{% for venue in venues %}
-				  	<option value="{{venue.name}}" >{{venue.name}}</option>
-				  	{% endfor %}
-				  </select>
-				  <p>Date: <input type="text" id="datepicker"></p>
-				  <label for="messsage"> Message: 
-				    <textarea name="messsage" id="messsage" placeholder="Tell them why you want them!"></textarea>
-				  </label>
-				  <input type="submit" value="Book" />
-				</form>
+		<div class="band-info">
+		<h2> {{artistInfo.artist_name}}</h2>
+		<p> {{artistInfo.artist_photo}} </p>
+		<p> {{artistInfo.site}} </p>
+		<p> {{artistInfo.sound}} </p>
+
 		</div>
+
+			<a href="#modal_book_artist"><button>Book Me!</button></a>
+			<!-- Artists will need their info passed, as well as a few forms i believe -->
+			<form action="{% url 'users:login' %}" method="post" id=modal_book_artist class="modal">
+				  {% csrf_token %}
+				  <div class="modal-content">
+				  <input type="hidden" name="{{artistInfo.id}}"
+					  <select name="venue_name">
+					  	{% for venue in venues %}
+					  	<option value="{{venue.name}}" >{{venue.name}}</option>
+					  	{% endfor %}
+					  </select>
+					  <label for="datepicker">Date: 
+					  	<input type="text" id="datepicker" name="datepicker">
+					  </label>
+					  <label for="messsage"> Message: 
+					    <textarea name="messsage" id="messsage" placeholder="Tell them why you want them!"></textarea>
+					  </label>
+					  <input type="submit" value="Book" />
+				  </div>
+			</form>
 		
 	</div>
 {% include 'bookrraven/footer.html'  %}

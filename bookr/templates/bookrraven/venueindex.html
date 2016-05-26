@@ -1,6 +1,13 @@
-{% include 'bookrraven/header_logged_out.html'  %}
+{% include 'bookrraven/header_logged_in.html'  %}
 	<div class="container section">
 <!-- ENTER BODY OF CODE HERE -->
+	<h3> Venue Directory</h3>
+
+	{% if venueList %}
+		{% for venue in venueList %}
+			<p><a href="">{{venue.id}}{{ venue.venue_name}}</a><p>
+		{% endfor %}
+	{% endif %}
 	</div>
 
 {% include 'bookrraven/footer.html'  %}

@@ -1,4 +1,4 @@
-{% include 'bookrraven/header_logged_out.html'  %}
+{% include 'bookrraven/header_logged_in.html'  %}
 	<div id="wrapper">
 		<div id="links">
 			<!-- venues takes a venues_list -->
@@ -10,5 +10,48 @@
 		</div>
 		<a href=""><button>LOGOUT</button></a>
 		
+		<a href="#modal_add_venue"><button>Book Me!</button></a>
+		<div class="modal" id="modal_add_venue">
+			
+			<form action="{% url '' %}" method="post" >
+				  {% csrf_token %}
+				  <div class="modal-content">
+				  <input type="hidden" name="{{user.id}}">
+					  <select name="venue_name">
+					  	{% for venue in venues %}
+					  	<option value="{{venue.name}}" >{{venue.name}}</option>
+					  	{% endfor %}
+					  </select>
+					<input type="submit" value="Select Venue" />
+				  </div>
+			</form>
+			<input type="checkbox"  id="add_new_venue" class="ibtn">
+			<form action="{% url '' %}" method="post" >
+				  {% csrf_token %}
+				  <div class="modal-content">
+				  <input type="hidden" name="{{user.id}}">
+					  <label for="venue_name"> Venue Name: 
+					    <input type="text" id="venue_name" name="venue_name">
+					  </label>
+					   <label for="address"> Venue Name: 
+					    <input type="text" id="address" name="address">
+					  </label>
+					   <select name="city">
+					  	{% for city in cities %}
+					  	<option value="{{city.city}}" >{{city.city}}</option>
+					  	{% endfor %}
+					  </select>
+					   <select name="state">
+					  	{% for state in states %}
+					  	<option value="{{state.state}}" >{{state.state}}</option>
+					  	{% endfor %}
+					  </select>
+					   <label for="phone"> Venue Name: 
+					    <input type="tel" id="phone" name="phone">
+					  </label>
+					  <input type="submit" value="Add Venue" />
+				  </div>
+			</form>
+		</div>
 	</div>
 {% include 'bookrraven/footer.html'  %}

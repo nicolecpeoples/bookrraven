@@ -2,9 +2,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.contrib.auth import forms, logout, authenticate, login
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from .forms import bbrRegForm
-from .models import Artist, Venue, People
-from django.contrib.auth.models import User
+from .models import Artist, Venue, Event, Message, Comment
 
 class Main(View):
     def get(self, request):
@@ -84,7 +82,7 @@ class Dashboard(View):
 
 class VenueIndex(View):
 	def get(self,request):
-		venueList = "SOMETHING"
+		venueList = Venue.objects.all()
 		context = {
 			'venueList': venueList,
 		}
@@ -93,14 +91,13 @@ class VenueIndex(View):
 
 class Venues(View):
 	def get(self,request):
-		# venueInfo = 
-		# eventList = 
-		# context = {
-		# 	'eventList': eventList,
-		# 	'venueInfo': venueInfo,
-		# }
-		# return render(request, 'bookrraven/venue.html', context)
-		pass
+		venueInfo = Venue.objects.all()
+		print(venueInfo)
+		context = {
+			'venueInfo': venueInfo,
+		}
+		return render(request, 'bookrraven/venue.html', context)
+		
 
 	def getVenueInfo(self, request):
 		# get venue info
@@ -111,8 +108,8 @@ class Venues(View):
 		pass
 
 class SingleArtist(View):
-	def get(self, request):
-		artistInfo = getArtistInfo()
+	def get(self, request, artist_id):
+		artistInfo = Artist.objects.get(id = artist_id)
 		context = {
 			'artistInfo': artistInfo,
 		}
@@ -120,12 +117,13 @@ class SingleArtist(View):
 
 class ArtistIndex(View):
 	def get(self,request):
-		artistList = "SOMETHING"
+
+		artistList = Artist.objects.all()
 		context = {
 			'artistList': artistList,
 		}
 		return render(request, 'bookrraven/artistindex.html', context)
-		pass		
+
 
 class Logout(View):
     def get(self,request):
