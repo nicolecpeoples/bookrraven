@@ -114,8 +114,8 @@ class Venue(View):
 		pass
 
 class Artist(View):
-	def get(self, request):
-		artistInfo = getArtistInfo()
+	def get(self, request, artist_id):
+		artistInfo = Artist.objects.get(id = artist_id)
 		context = {
 			'artistInfo': artistInfo,
 		}
