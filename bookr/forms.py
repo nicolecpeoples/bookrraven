@@ -1,6 +1,5 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate
-from django.contrib.auth.models import User
 from django.forms import ModelForm
 from .models import People
 from django import forms
@@ -13,7 +12,7 @@ class bbrRegForm(UserCreationForm):
     user_phone = forms.CharField(max_length=10)
     class Meta:
         model = User
-        fields = ( 'username', 'first_name', 'last_name', 'email', 'access', 'password1', 'password2')
+        fields = ( 'username', 'first_name', 'last_name', 'email', 'user_phone' 'access', 'password1', 'password2')
        
     def save(self, commit=True):
         user = super(bbrRegForm, self).save(commit=False)

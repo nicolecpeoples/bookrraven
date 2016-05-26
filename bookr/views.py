@@ -56,8 +56,8 @@ class Register(View):
 class Dashboard(View):
 	def get(self, request):
 		# if our newly logged in user is an artist or booker go to diff sites
-		for item in request.session:
-			print item
+		item = dir(request.session)
+		print (item)
 		if request.User.access == 'Artist':
 			artistInfo = Artist.objects.get(contact_id=request.user.id)
 			context = {
@@ -91,7 +91,7 @@ class VenueIndex(View):
 		return render(request, 'bookrraven/venueindex.html', context)
 		
 
-class Venue(View):
+class Venues(View):
 	def get(self,request):
 		# venueInfo = 
 		# eventList = 
@@ -110,7 +110,7 @@ class Venue(View):
 		# get event list info
 		pass
 
-class Artist(View):
+class SingleArtist(View):
 	def get(self, request):
 		artistInfo = getArtistInfo()
 		context = {
