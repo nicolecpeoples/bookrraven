@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic import View
 from django.contrib.auth import forms
 from django.contrib.auth import logout
-from .models import Artist, Venue
+from .models import Artist, Venue, Event, Message, Comment
 
 # Create your views here.
 class Main(View):
@@ -87,23 +87,22 @@ class Dashboard(View):
 
 class VenueIndex(View):
 	def get(self,request):
-		venueList = "SOMETHING"
+		venueList = Venue.objects.all()
 		context = {
 			'venueList': venueList,
 		}
 		return render(request, 'bookrraven/venueindex.html', context)
 		
 
-class Venue(View):
+class VenueList(View):
 	def get(self,request):
-		# venueInfo = 
-		# eventList = 
-		# context = {
-		# 	'eventList': eventList,
-		# 	'venueInfo': venueInfo,
-		# }
-		# return render(request, 'bookrraven/venue.html', context)
-		pass
+		venueInfo = Venue.objects.all()
+		print(venueInfo)
+		context = {
+			'venueInfo': venueInfo,
+		}
+		return render(request, 'bookrraven/venue.html', context)
+		
 
 	def getVenueInfo(self, request):
 		# get venue info
@@ -113,7 +112,7 @@ class Venue(View):
 		# get event list info
 		pass
 
-class Artist(View):
+class SingleArtist(View):
 	def get(self, request, artist_id):
 		artistInfo = Artist.objects.get(id = artist_id)
 		context = {
@@ -123,12 +122,13 @@ class Artist(View):
 
 class ArtistIndex(View):
 	def get(self,request):
-		artistList = "SOMETHING"
+
+		artistList = Artist.objects.all()
 		context = {
 			'artistList': artistList,
 		}
 		return render(request, 'bookrraven/artistindex.html', context)
-		pass		
+
 
 # class Test(View):
 # 	def get(self, request):
