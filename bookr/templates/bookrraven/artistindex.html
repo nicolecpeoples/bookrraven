@@ -1,16 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	{% load staticfiles %}
-	<meta charset="UTF-8">
-	<meta name="author" content="Jonathan Ben-Ammi">
-	<title>BookRRaven - Artist Index</title>
-	<meta name="description" content="Where venues find tallent">
-	<link rel="stylesheet" type="text/css" href="{% static 'bookr/css/materialize.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'bookr/css/materialize_icons.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'bookr/style.css' %}">
-</head>
-<body>
+{% include 'bookrraven/header_logged_out.html'  %}
 	<nav class="orange darken-3">
 		<div class="nav-Wrapper">
 			<div class="container navlinks">
@@ -25,12 +13,4 @@
 	<div class="container section">
 <!-- ENTER BODY OF CODE HERE -->
 	</div>
-
-<!-- Begin Scripts -->
-	<script src="{% static 'bookr/js/jquery-2.2.3.js' %}"></script>
-	<script src="{% static 'bookr/js/jquery-ui.js' %}"></script>
-	<script src="{% static 'bookr/js/materialize.js' %}"></script>
-	<script type="text/javascript" src=""></script>
-<!-- End Scripts -->
-</body>
-</html>	
+{% include 'bookrraven/footer.html'  %}
