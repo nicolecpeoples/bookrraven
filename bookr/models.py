@@ -1,23 +1,7 @@
 from __future__ import unicode_literals
-
 from django.db import models
+from django.contrib.auth.models import User
 from datetime import datetime
-
-class People(models.Model):
-	BOOKER = 'BKR'
-	ARTIST = 'ART'
-	ACCESS_CHOICES = (
-		(BOOKER, 'Booker'),
-		(ARTIST, 'Artist')
-		)
-	first_name = models.CharField(max_length=45)
-	last_name = models.CharField(max_length=45)
-	email = models.CharField(max_length=100)
-	user_phone = models.CharField(max_length=10)
-	access = models.CharField(max_length=3, choices=ACCESS_CHOICES)
-	hashpass = models.CharField(max_length=255)
-	created_at = models.DateTimeField(auto_now_add=True)
-	updated_at = models.DateTimeField(auto_now=True)
 
 class Artist(models.Model):
 	artist_name = models.CharField(max_length=100)
@@ -26,7 +10,9 @@ class Artist(models.Model):
 	artist_photo = models.ImageField(max_length=100)
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
-	contact_id = models.ForeignKey('People')
+	contact_id = models.ForeignKey(User)
+	def __str__(self):
+		return 'ID: %s | Artist: %s | Main Contact: %s' % (self.id, self.artist_name, self.contact_id.email)
 
 class Venue(models.Model):
 	SEATTLE = 'SEA'
@@ -50,7 +36,7 @@ class Venue(models.Model):
 	venue_photo = models.ImageField(max_length=100)
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
-	booker_id = models.ForeignKey('People')
+	booker_id = models.ForeignKey(User)
 
 class Event(models.Model):
 	PENDING = 'Pend'
@@ -73,7 +59,7 @@ class Message(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 	event_id = models.ForeignKey('Event')	
-	author_id = models.ForeignKey('People')
+	author_id = models.ForeignKey(User)
 
 class Comment(models.Model):
 	comment = models.CharField(max_length=255)
@@ -81,4 +67,4 @@ class Comment(models.Model):
 	updated_at = models.DateTimeField(auto_now=True)
 	message_id = models.ForeignKey('Message')	
 	event_id = models.ForeignKey('Event')
-	author_id = models.ForeignKey('People')
+	author_id = models.ForeignKey(User)
