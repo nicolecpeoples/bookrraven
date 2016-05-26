@@ -5,8 +5,8 @@ from datetime import datetime
 
 class Artist(models.Model):
 	artist_name = models.CharField(max_length=100)
-	site = models.URLField(max_length=200)
-	sound = models.URLField(max_length=200)
+	site = models.URLField(max_length=200, blank=True)
+	sound = models.URLField(max_length=200, blank=True)
 	artist_photo = models.ImageField(max_length=100)
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
@@ -37,6 +37,8 @@ class Venue(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 	booker_id = models.ForeignKey(User)
+	def __str__(self):
+		return 'ID: %s | Venue: %s | Booker: %s %s' % (self.id, self.venue_name, self.booker_id.first_name, self.booker_id.last_name)	
 
 class Event(models.Model):
 	PENDING = 'Pend'
@@ -53,6 +55,8 @@ class Event(models.Model):
 	updated_at = models.DateTimeField(auto_now=True)
 	venue_id = models.ForeignKey('Venue')
 	artist_id = models.ForeignKey('Artist')
+	def __str__(self):
+		return 'ID: %s | Venue: %s | Artist: %s | Date: %s' % (self.id, self.venue_id.venue_name, self.artist_id.artist_name, self.event_date)	
 
 class Message(models.Model):
 	message = models.CharField(max_length=255)

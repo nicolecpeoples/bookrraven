@@ -1,11 +1,8 @@
 from django.conf.urls import url
-from django.shortcuts import redirect
 from . import views
 from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
-# JBA - had to change the url for the main landing as it was not catching the redirect for some reason.
-	# url(r'^$', redirect('/main')),
 	url(r'^$', views.Main.as_view(), name='brr-landing'),
 	url(r'^login/$', views.Login.as_view(), name='brr-login'),
 	url(r'^register/$', views.Register.as_view(), name='brr-register'),
