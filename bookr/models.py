@@ -3,6 +3,19 @@ from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
 
+class People(models.Model):
+    BOOKER = 'BKR'
+    ARTIST = 'ART'
+    ACCESS_CHOICES = (
+        (BOOKER, 'Booker'),
+        (ARTIST, 'Artist')
+        )
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user_phone = models.CharField(max_length=10)
+    access = models.CharField(max_length=3, choices=ACCESS_CHOICES)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
 class Artist(models.Model):
 	artist_name = models.CharField(max_length=100)
 	site = models.URLField(max_length=200, blank=True)

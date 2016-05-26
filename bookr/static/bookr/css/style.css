@@ -75,3 +75,9 @@ video {
   html { background: url({% static 'bookr/img/Band.jpg' %}) #000 no-repeat center center fixed; }
   #bgvid { display: none; }
 }
+
+.errorlist {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #FF0000;
+}
