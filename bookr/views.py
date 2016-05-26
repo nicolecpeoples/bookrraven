@@ -1,22 +1,23 @@
 from django.shortcuts import render
 from django.views.generic import View
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-
+from django.contrib.auth import forms
+from django.contrib.auth import logout
+from .models import Artist, Venue
 # Create your views here.
 class Main(View):
-	logform = AuthenticationForm
-	regform = UserCreationForm
 	def get(self, request):
+		logform = forms.AuthenticationForm
+		regform = forms.UserCreationForm
 		context = {
-			'logform': self.logform,
-			'regform': self.regfom,
+			'logform': logform,
+			'regform': regform,
 		}
 		return render(request, 'bookrraven/landing.html', context)
 
 class Login(View):
-	logform = AuthenticationForm(request.POST)
-	regform = UserCreationForm
 	def post(self, request):
+		logform = AuthenticationForm(request.POST)
+		regform = UserCreationForm
 		context = {
 			'logform': self.logform,
 			'regform': self.regform,
@@ -27,7 +28,7 @@ class Login(View):
 			user = authenticate(username=username, password=password)
 			if user is not None:
 				login(request, user)
-				return redirect('/dashboard/')
+				return redirect('/dashboard')
 			else:
 				context = {
 					'logform': self.logform,
@@ -38,10 +39,10 @@ class Login(View):
 			return render(request, 'bookrraven/landing.html', context)
 
 class Register(View):
-	logform = AuthenticationForm
-	regform = UserCreationForm(request.POST)
 	def post(self, request):
 		# for errors
+		logform = forms.AuthenticationForm
+		regform = UserCreationForm(request.POST)
 		context = {
 			'logform': self.logform,
 			'regform': self.regform,
@@ -59,15 +60,16 @@ class Register(View):
 class Dashboard(View):
 	def get(self, request):
 		# if our newly logged in user is an artist or booker go to diff sites
-		if (artist):
-			artistInfo = 
+		if request.user.groups == 'Artist':
+			artistInfo = Artist.objects.get(contact_id=request.user.id)
 			context = {
 				'artistInfo': artistInfo,
 			}
 			return render(request, 'bookrraven/artisthome.html', context)
 		else:
 			# get booker informations
-			bookerinfo = getBookerInfo(request.POST.username)
+			bookerinfo = Venue.objects.filter(booker_id=request.user.id)
+			events = event
 			context = {
 				'booker_info': bookerinfo,
 			} 
@@ -81,15 +83,27 @@ class Dashboard(View):
 			# gets booker info
 			# request_list, event_list, venue_list
 			pass
+
+class VenueIndex(View):
+	def get(self,request):
+		venueList = "SOMETHING"
+		context = {
+			'venueList': venueList,
+		}
+		return render(request, 'bookrraven/venueindex.html', context)
+		
+
 class Venue(View):
 	def get(self,request):
-		venueInfo = 
-		eventList = 
-		context = {
-			'eventList': eventList,
-			'venueInfo': venueInfo,
-		}
-		return render(request, 'bookrraven/venue.html', context)
+		# venueInfo = 
+		# eventList = 
+		# context = {
+		# 	'eventList': eventList,
+		# 	'venueInfo': venueInfo,
+		# }
+		# return render(request, 'bookrraven/venue.html', context)
+		pass
+
 	def getVenueInfo(self, request):
 		# get venue info
 		pass
@@ -97,6 +111,7 @@ class Venue(View):
 	def getEventList(self, request):
 		# get event list info
 		pass
+
 
 class Artist(View):
 	def get(self, request):
@@ -109,4 +124,13 @@ class Artist(View):
 	def getArtistInfo(self, request):
 		# get artists info for profile page
 		pass
+
+class ArtistIndex(View):
+	def get(self,request):
+		artistList = "SOMETHING"
+		context = {
+			'artistList': artistList,
+		}
+		return render(request, 'bookrraven/artistindex.html', context)
+		pass		
 
