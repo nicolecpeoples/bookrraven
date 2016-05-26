@@ -14,3 +14,65 @@
 p.btm-margin {
 	margin-bottom: 2%;
 }
+
+.nav-wrapper {
+
+}
+
+
+.logo {
+	background: url("/static/bookr/BookRRaven_light.png");
+	background-position: center;
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 20%;
+}
+
+.logo, .logo a{
+	height: 64px;
+	display: inline-block;
+}
+
+.logo a {
+	width: 100%;
+}
+
+#landing_menu {
+	margin-top: 5%;
+}
+
+.photo {
+	height: 200px;
+	background: black; 
+}
+
+body {
+  margin: 0;
+  background: #000; 
+}
+video { 
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100;
+    transform: translateX(-50%) translateY(-50%);
+ background: url('{% static 'bookr/img/Band.jpg' %}') no-repeat;
+  background-size: cover;
+  transition: 1s opacity;
+}
+.stopfade { 
+   opacity: .5;
+}
+
+@media screen and (max-width: 500px) { 
+  div{width:70%;} 
+}
+@media screen and (max-device-width: 800px) {
+  html { background: url({% static 'bookr/img/Band.jpg' %}) #000 no-repeat center center fixed; }
+  #bgvid { display: none; }
+}
+

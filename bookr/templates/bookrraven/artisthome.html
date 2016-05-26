@@ -39,6 +39,7 @@
 			<div class="container navlinks">
 				<div id="logo-container" class="brand-logo logo left"><a href="{% url 'brr-dashboard' %}"> </a></div>
 				<ul class="right">
+					<li>Welcome{{session.loggedin.first_name}}</li>			
 					<li><a href="{% url 'brr-dashboard' %}">Dashboard</a></li>
 					<li><a href="">Profile</a></li>
 					<li><a href="/logout">Logout</a></li>

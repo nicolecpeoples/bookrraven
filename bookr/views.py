@@ -16,11 +16,11 @@ class Main(View):
 
 class Login(View):
 	def post(self, request):
-		logform = AuthenticationForm(request.POST)
-		regform = UserCreationForm
+		logform = forms.AuthenticationForm(request.POST)
+		regform = forms.UserCreationForm
 		context = {
-			'logform': self.logform,
-			'regform': self.regform,
+			'logform': logform,
+			'regform': regform,
 		}
 		if self.logform.is_valid():
 			username = self.logform.cleaned_data['username']
@@ -31,8 +31,8 @@ class Login(View):
 				return redirect('/dashboard')
 			else:
 				context = {
-					'logform': self.logform,
-					'regform': self.regform,
+					'logform': logform,
+					'regform': regform,
 				}
 				return render(request, 'bookrraven/landing.html', context)
 		else:
@@ -112,7 +112,6 @@ class Venue(View):
 		# get event list info
 		pass
 
-
 class Artist(View):
 	def get(self, request):
 		artistInfo = getArtistInfo()
@@ -120,10 +119,6 @@ class Artist(View):
 			'artistInfo': artistInfo,
 		}
 		return render(request, 'bookrraven/artistprofile.html', context)
-
-	def getArtistInfo(self, request):
-		# get artists info for profile page
-		pass
 
 class ArtistIndex(View):
 	def get(self,request):
@@ -134,3 +129,6 @@ class ArtistIndex(View):
 		return render(request, 'bookrraven/artistindex.html', context)
 		pass		
 
+# class Test(View):
+# 	def get(self, request):
+# 		return render(request, 'bookrraven/test.html')

@@ -11,4 +11,5 @@ urlpatterns = [
 	url(r'^venue/(?P<venue_id>\d+)', views.Venue.as_view(), name='brr-venue'),
 	url(r'^artist/$', views.ArtistIndex.as_view(), name='brr-artistindex'),
 	url(r'^artist/(?P<artist_id>\d+)', views.Artist.as_view(), name='bbr-artist'),
+	# url(r'^test/$', views.Test.as_view(), name='brr-test')
 ]
