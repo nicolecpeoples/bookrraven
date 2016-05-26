@@ -1,0 +1,6 @@
+*.DS_store
+*.swp
+*.pyc
+venv/*
+DjangoVenv/*
+__pycache__/*
