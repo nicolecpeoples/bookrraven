@@ -15,12 +15,6 @@ p.btm-margin {
 	margin-bottom: 2%;
 }
 
-
-
-.nav-wrapper {
-
-}
-
 .container {
 	width: 90%;
 	margin: 0% auto;
@@ -30,6 +24,7 @@ p.btm-margin {
 	background: url("/static/bookr/BookRRaven_light.png");
 	background-position: center;
 	background-size: contain;
+	background-repeat: no-repeat;
 	width: 20%;
 }
 
@@ -49,4 +44,34 @@ p.btm-margin {
 .photo {
 	height: 200px;
 	background: black; 
+}
+
+body {
+  margin: 0;
+  background: #000; 
+}
+video { 
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100;
+    transform: translateX(-50%) translateY(-50%);
+ background: url('{% static 'bookr/img/Band.jpg' %}') no-repeat;
+  background-size: cover;
+  transition: 1s opacity;
+}
+.stopfade { 
+   opacity: .5;
+}
+
+@media screen and (max-width: 500px) { 
+  div{width:70%;} 
+}
+@media screen and (max-device-width: 800px) {
+  html { background: url({% static 'bookr/img/Band.jpg' %}) #000 no-repeat center center fixed; }
+  #bgvid { display: none; }
 }

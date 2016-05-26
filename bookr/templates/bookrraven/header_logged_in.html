@@ -11,6 +11,8 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'bookr/style.css' %}">
 </head>
 <body>
+	{{user}}
+	{% if user.get_access == 'Artist' %}
 	<nav class="orange darken-3">
 		<div class="nav-Wrapper">
 			<div class="container">
@@ -23,8 +25,8 @@
 			</div>
 		</div>
 	</nav>
-
-		<nav class="orange darken-3">
+	{% elif user.get_access == 'Booker' %}
+	<nav class="orange darken-3">
 		<div class="nav-Wrapper">
 			<div class="container navlinks">
 				<div id="logo-container" class="brand-logo logo left"><a href="{% url 'brr-dashboard' %}"> </a></div>
@@ -36,3 +38,4 @@
 			</div>
 		</div>
 	</nav>
+	{% endif %}

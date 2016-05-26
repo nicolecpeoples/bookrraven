@@ -1,39 +1,33 @@
 {% include 'bookrraven/header_logged_out.html'  %}
 
-	<div id="container">
-		<div id="features">
-			Book Me: <a href=""><button>Book Me!</button></a>
-			Upcoming Events:
-			 <!-- eventlist will be needed -->
-
-
 	<div class="container section">
-	<div class="row">
-		<div class="col s12 m4">
-			<h4>{{artist.name}}BandAidRocks</h4>
-			<div class="photo"><img src="">Artist Photo</div>
+		<div class="row">
+			<div class="col s12 m4">
+				<h4>{{artist.name}}BandAidRocks</h4>
+				<div class="photo"><img src="">Artist Photo</div>
+			</div>
+		</div>
+		<div class="row section">
+			<div class="col s12 m6">
+				<table>
+					<thead>
+						<tr>
+							<th>Venue</th>
+							<th>Date</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for event in events_list %}
+						<tr>
+							<td>{{event.venue}}</td>
+							<td>{{event.date}}</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+			
 		</div>
 	</div>
-	<div class="row section">
-		<div class="col s12 m6">
-			<table>
-				<thead>
-					<tr>
-						<th>Venue</th>
-						<th>Date</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for event in events_list %}
-					<tr>
-						<td>{{event.venue}}</td>
-						<td>{{event.date}}</td>
-					</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-		</div>
-		
-	</div>
-	</div>
+	
 {% include 'bookrraven/footer.html'  %}

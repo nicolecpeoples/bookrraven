@@ -6,12 +6,30 @@
 	<script src="{% static 'bookr/js/materialize.js' %}"></script>
 	<script type="text/javascript" src=""></script>
 	<script>
-	  $(function() {
-	    $( "#datepicker" ).datepicker({
-	      changeMonth: true,
-	      changeYear: true
-	    });
-	  });
+	$(document).ready(function(){
+		$(function() {
+			$( "#datepicker" ).datepicker({
+				changeMonth: true,
+				changeYear: true
+			});
+		});
+
+		var vid = document.getElementById("bgvid");
+		
+		function vidFade() {
+		  vid.classList.add("stopfade");
+		}
+
+		vid.addEventListener('ended', function()
+		{
+		// only functional if "loop" is removed 
+		vid.pause();
+		// to capture IE10
+		vidFade();
+		}); 
+
+
+	})
 	  </script>
 <!-- End Scripts -->
 </body>
