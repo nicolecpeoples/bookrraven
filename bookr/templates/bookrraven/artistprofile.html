@@ -1,15 +1,22 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Artist Profile</title>
-</head>
-<body>
+{% include 'bookrraven/header_logged_out.html'  %}
 	<div id="wrapper">
 		<div>
 			<a href=""><button>Book Me!</button></a>
 			<!-- Artists will need their info passed, as well as a few forms i believe -->
+			<form action="{% url 'users:login' %}" method="post">
+				  {% csrf_token %}
+				  <select name="venue_name">
+				  	{% for venue in venues %}
+				  	<option value="{{venue.name}}" >{{venue.name}}</option>
+				  	{% endfor %}
+				  </select>
+				  <p>Date: <input type="text" id="datepicker"></p>
+				  <label for="messsage"> Message: 
+				    <textarea name="messsage" id="messsage" placeholder="Tell them why you want them!"></textarea>
+				  </label>
+				  <input type="submit" value="Book" />
+				</form>
 		</div>
 		
 	</div>
-</body>
-</html>
+{% include 'bookrraven/footer.html'  %}

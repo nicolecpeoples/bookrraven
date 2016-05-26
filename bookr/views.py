@@ -3,6 +3,7 @@ from django.views.generic import View
 from django.contrib.auth import forms
 from django.contrib.auth import logout
 from .models import Artist, Venue
+
 # Create your views here.
 class Main(View):
 	def get(self, request):
