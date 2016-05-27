@@ -11,7 +11,7 @@ class bbrRegForm(UserCreationForm):
     access = forms.ChoiceField(choices=People.ACCESS_CHOICES)
     user_phone = forms.CharField(max_length=10)
     class Meta:
-        model = User
+        # model = User
         fields = ( 'username', 'first_name', 'last_name', 'email', 'user_phone' 'access', 'password1', 'password2')
        
     def save(self, commit=True):

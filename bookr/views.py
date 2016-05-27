@@ -93,10 +93,16 @@ class VenueIndex(View):
 		
 
 class Venues(View):
-	def get(self,request, venue_id):
-		get_venue = Venue.objects.get(id=venue_id)
+
+	def get(self,request,venue_id):
+		get_venue = Venue.objects.get(id = venue_id)
+
 		context= {
 			'get_venue': get_venue
+		}
+
+		return render(request, 'bookrraven/venueindex.html', context)
+
 	def get(self,request):
 		venueInfo = Venue.objects.all()
 		print(venueInfo)
