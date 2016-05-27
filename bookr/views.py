@@ -5,9 +5,7 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from .forms import bbrRegForm
 from .models import Artist, Venue, People
 from django.contrib.auth.models import User
-from django.contrib.auth import forms
-from django.contrib.auth import logout
-from .models import Artist, Venue, Event, Message, Comment
+
 
 class Main(View):
     def get(self, request):
@@ -59,8 +57,8 @@ class Register(View):
 class Dashboard(View):
 	def get(self, request):
 		# if our newly logged in user is an artist or booker go to diff sites
-		for item in request.session:
-			print item
+		item = dir(request.session)
+		print (item)
 		if request.User.access == 'Artist':
 			artistInfo = Artist.objects.get(contact_id=request.user.id)
 			context = {
@@ -95,17 +93,40 @@ class VenueIndex(View):
 		
 
 class Venues(View):
-	def get(self,request, venue_id):
-		get_venue = Venue.objects.get(id=venue_id)
-		context= {
-			'get_venue': get_venue
+	def get(self,request):
+		venueInfo = Venue.objects.all()
+		print(venueInfo)
+		context = {
+			'venueInfo': venueInfo,
 		}
 		return render(request, 'bookrraven/venue.html', context)
 		
 
+	def getVenueInfo(self, request):
+		# get venue info
+		pass
+
 	def getEventList(self, request):
 		# get event list info
 		pass
+
+	# def get(self,request, venue_id):
+	# 	get_venue = Venue.objects.get(id=venue_id)
+	# 	context= {
+	# 		'get_venue': get_venue
+	# def get(self,request):
+	# 	venueInfo = Venue.objects.all()
+	# 	print(venueInfo)
+	# 	context = {
+	# 		'venueInfo': venueInfo,
+
+	# 	}
+	# 	return render(request, 'bookrraven/venue.html', context)
+		
+
+	# def getEventList(self, request):
+	# 	# get event list info
+	# 	pass
 
 class SingleArtist(View):
 	def get(self, request, artist_id):
