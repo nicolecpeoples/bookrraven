@@ -1,6 +1,29 @@
 from __future__ import unicode_literals
 from django.db import models
+from django.contrib.auth.models import AbstractBaseUser
 from datetime import datetime
+from PIL import Image
+
+
+class SomeUser(AbstractBaseUser):
+    BOOKER = 'BKR'
+    ARTIST = 'ART'
+    ACCESS_CHOICES = (
+        (BOOKER, 'Booker'),
+        (ARTIST, 'Artist')
+        )
+    email = models.EmailField('Email Address', unique=True, db_index=True)
+    first_name = models.CharField('First Name', max_length=45)
+    last_name = models.CharField('Last Name', max_length=45)
+    groups = models.CharField('Access', max_length=3, choices=ACCESS_CHOICES)
+    joined = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=True)
+    is_admin = models.BooleanField(default=False)
+
+    USERNAME_FIELD = 'email'
+
+    def __unicode__(self):
+        return self.email
 
 class People(models.Model):
     BOOKER = 'BKR'
@@ -17,12 +40,14 @@ class People(models.Model):
     hashpass = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    def __str__(self):
+		return 'ID: %s | Name: %s %s' % (self.id, self.first_name, self.last_name)
 
 class Artist(models.Model):
 	artist_name = models.CharField(max_length=100)
 	site = models.URLField(max_length=200, blank=True)
 	sound = models.URLField(max_length=200, blank=True)
-	artist_photo = models.ImageField(max_length=100)
+	artist_photo = models.ImageField(upload_to='photo')
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 	contact_id = models.ForeignKey('People')

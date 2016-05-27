@@ -1,13 +1,15 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, render_to_response
 from django.views.generic import View
-from django.contrib.auth import forms, logout, authenticate, login
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth import forms, logout as django_logout, authenticate, login as django_login
+from django.template import RequestContext
 from .models import Artist, Venue, Event, Message, Comment
+from .forms import brrRegForm, brrLogForm
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 class Main(View):
     def get(self, request):
-        logform = forms.AuthenticationForm
-        regform = bbrRegForm
+        logform = brrLogForm
+        regform = brrRegForm
         context = {
             'logform': logform,
             'regform': regform,
@@ -15,28 +17,40 @@ class Main(View):
         return render(request, 'bookrraven/landing.html', context)
 
 class Login(View):
-    regform = bbrRegForm
+    regform = brrRegForm
     def post(self, request):
-        logform = AuthenticationForm(request.POST)
+        logform = brrLogForm(request.POST)
+        if logform.is_valid():
+	        email = request.POST['email']
+	        password = request.POST['password']
+	        user = authenticate(email=email, password=password)
+
         context = {
             'logform': logform,
             'regform': self.regform,
         }
 
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(username=username, password=password)
         if user is not None:
-            login(request, user)
-            return redirect('/dashboard/')
-        else:
-            return render(request, 'bookrraven/landing.html', context)
+        	if user.is_active:
+				django_login(request, user)
+				if request.user.groups == 'ART':
+					return redirect('/artistdashboard/')
+				elif request.user.groups == 'BKR':
+					return redirect('/bookerdashboard/')
+		else:
+			form = AuthenticationForm()
+			return render_to_response('bookrraven/landing.html', {
+			'form': form,
+			}, context_instance=RequestContext(request))
+
+        # else:
+        #     return render(request, 'bookrraven/landing.html', context)
 
 class Register(View):
-    logform = AuthenticationForm
+    logform = brrLogForm
     def post(self, request):
         # for errors
-        regform = UserCreationForm(request.POST)
+        regform = brrRegForm(request.POST)
         context = {
             'logform': self.logform,
             'regform': regform,
@@ -44,41 +58,32 @@ class Register(View):
         if regform.is_valid():
             regform.save()
             # log 'em in
-            user = authenticate(username=regform.cleaned_data['username'], password=regform.cleaned_data['password1'],)
+            user = authenticate(email=regform.cleaned_data['email'], password=regform.cleaned_data['password1'],)
             login(request, user)
             # send them to a dashboard(it'll sort 'em out)
-            return redirect('/dashboard/')
+            if request.user.groups == 'ART':
+            	return redirect('artistdashboard/')
+            elif request.user.groups == 'BKR':
+            	return redirect('bookerdashboard/')
         else:
             return render(request, 'bookrraven/landing.html', context)
 
-class Dashboard(View):
+class ArtistDashboard(View):
 	def get(self, request):
-		# if our newly logged in user is an artist or booker go to diff sites
-		item = dir(request.session)
-		print (item)
-		if request.User.access == 'Artist':
-			artistInfo = Artist.objects.get(contact_id=request.user.id)
-			context = {
-				'artistInfo': artistInfo,
-			}
-			return render(request, 'bookrraven/artisthome.html', context)
-		else:
-			# get booker informations
-			bookerinfo = Venue.objects.filter(booker_id=request.user.id)
-			events = event
-			context = {
-				'booker_info': bookerinfo,
-			} 
-			return render(request, 'bookerraven/bookerhome.html', context)
+		artistInfo = Artist.objects.get(contact_id=request.user.id)
+		context = {
+			'artistInfo': artistInfo,
+		}
+		return render(request, 'bookrraven/artisthome.html', context)
 
-		def getArtistInfo(self, request):
-			# gets artist info
-			pass
 
-		def getBookerInfo(self,request):
-			# gets booker info
-			# request_list, event_list, venue_list
-			pass
+class BookerDashboard(View):
+	def get(self, request):
+		bookerinfo = Venue.objects.filter(booker_id=request.user.id)
+		context = {
+			'booker_info': bookerinfo,
+		} 
+		return render(request, 'bookrraven/bookerhome.html', context)
 
 class VenueIndex(View):
 	def get(self,request):
@@ -107,11 +112,18 @@ class Venues(View):
 		# get event list info
 		pass
 
+class AddArtist(View):
+	# def post(self, request)
+	# 	artistInfo = Artist(request.POST)
+	pass
+
 class SingleArtist(View):
 	def get(self, request, artist_id):
 		artistInfo = Artist.objects.get(id = artist_id)
+		venueInfo = Venue.objects.all()
 		context = {
 			'artistInfo': artistInfo,
+			'venueInfo': venueInfo,
 		}
 		return render(request, 'bookrraven/artistprofile.html', context)
 
@@ -124,10 +136,25 @@ class ArtistIndex(View):
 		}
 		return render(request, 'bookrraven/artistindex.html', context)
 
+class AddEventInfo(View):
+	def post(self, request):
+		form = Event(request.POST)
+		if form.is_valid():
+			art_id = form.cleaned_data['artist_id']
+			stat = form.cleaned_data['status']
+			ven_id = form.cleaned_data['venue_id']
+			e_date = form.cleaned_data['event_date']
+		newEvent = Event(artist_id = art_id, status = stat, venue_id = ven_id, event_date = e_date)
+		newEvent.save()
+		return render(request, 'bookrraven/')
+
+class ActiveEvent(View):
+	pass
 
 class Logout(View):
     def get(self,request):
-        logout(request, next='/')
+		django_logout(request)
+		return redirect('/')
 
 # class Test(View):
 # 	def get(self, request):

@@ -1,26 +1,68 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate
-from django.forms import ModelForm
-from .models import People
 from django import forms
+from django.forms import ModelForm, widgets
+from .models import SomeUser, People, Event, Comment, Message, Venue, Artist
 
-class bbrRegForm(UserCreationForm):
-    first_name = forms.CharField(label='First Name')
-    last_name = forms.CharField(label='Last Name')
-    email = forms.EmailField(label='email address')
-    access = forms.ChoiceField(choices=People.ACCESS_CHOICES)
-    user_phone = forms.CharField(max_length=10)
+class brrRegForm(forms.ModelForm):
+    BOOKER = 'BKR'
+    ARTIST = 'ART'
+    ACCESS_CHOICES = (
+        (BOOKER, 'Booker'),
+        (ARTIST, 'Artist')
+        )
+    first_name = forms.CharField(widget=forms.widgets.TextInput, label="First Name")
+    last_name = forms.CharField(widget=forms.widgets.TextInput, label="Last Name")
+    email = forms.EmailField(widget=forms.widgets.TextInput,label="Email")
+    user_phone = forms.CharField(widget=forms.widgets.TextInput,label="Contact Phone")
+    groups = forms.ChoiceField(widget=forms.widgets.Select, choices=ACCESS_CHOICES, label="Access")
+    password1 = forms.CharField(widget=forms.widgets.PasswordInput, label="Password")
+    password2 = forms.CharField(widget=forms.widgets.PasswordInput, label="Confirm Password")
+
+    # error_css_class = 'error'
+    # required_css_class = 'required'
+    # first_name = forms.CharField(label='First Name')
+    # last_name = forms.CharField(label='Last Name')
+    # email = forms.EmailField(label='Email Address')
+    # access = forms.ChoiceField(label='Access', choices=People.ACCESS_CHOICES)
+    # user_phone = forms.CharField(label='Contact Phone', max_length=10)
+    # password1 = forms.CharField(label='Password', min_length=8)
+    # password2 = forms.CharField(label='Confirm Password', min_length=8)     
+    # pass
+
     class Meta:
-        model = User
-        fields = ( 'username', 'first_name', 'last_name', 'email', 'user_phone' 'access', 'password1', 'password2')
-       
+        model = SomeUser
+        fields = ['first_name', 'last_name', 'email', 'user_phone', 'groups', 'password1', 'password2']
+
+    def clean(self):
+        cleaned_data = super(brrRegForm, self).clean()
+        if 'password1' in self.cleaned_data and 'password2' in self.cleaned_data:
+            if self.cleaned_data['password1'] != self.cleaned_data['password2']:
+                raise forms.ValidationError("Passwords don't match. Please enter both fields again.")
+        return self.cleaned_data
+
     def save(self, commit=True):
-        user = super(bbrRegForm, self).save(commit=False)
-        user.first_name = self.cleaned_data['first_name']       
-        user.last_name = self.cleaned_data['last_name']
-        user.email = self.cleaned_data['email']
-        user.set_password(self.cleaned_data['password1'])
-        user.access = self.cleaned_data['access']
+        someuser = super(brrRegForm, self).save(commit=False)
+        someuser.set_password(self.cleaned_data['password1'])
         if commit:
-            user.save()
-            return user
+            someuser.save()
+        return someuser
+
+class brrLogForm(forms.Form):
+    email = forms.CharField(label='Email Address', widget=forms.widgets.TextInput)
+    password = forms.CharField(label='Password', widget=forms.widgets.PasswordInput)
+    class Meta:
+        fields = ['email', 'password']
+
+class NewEventForm(forms.ModelForm):
+    artist_id = forms.CharField(widget=forms.widgets.HiddenInput)
+    status = forms.CharField(widget=forms.widgets.HiddenInput)
+    venue_id = forms.CharField(label='Venue', widget=forms.widgets.Select)
+    event_date = forms.CharField(label='Event Date',widget=forms.widgets.DateInput)
+
+
+class ArtistForm(forms.ModelForm):
+    artist_name = forms.CharField(max_length=100)
+    site = forms.URLField(max_length=200, required=False)
+    sound = forms.URLField(max_length=200, required=False)
+    # artist_photo = forms.ImageField(upload_to='photo')

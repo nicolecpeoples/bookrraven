@@ -10,16 +10,16 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'bookr/css/materialize_icons.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'bookr/css/style.css' %}">
 </head>
-<body>
-	
+<body class="blue-grey">
 	<nav class="orange darken-3">
 		<div class="nav-Wrapper">
 			<div class="container">
-				<div id="logo-container" class="brand-logo logo left"><a href="/"> </a></div>
+				<div id="logo-container" class="brand-logo logo left"></div>
 				<ul class="right">
-				<li>Welcome{{session.loggedin.first_name}}</li>
+				<li><a href="{% url 'brr-dashboard' %}">Welcome{{session.loggedin.first_name}}</a></li>
 				<li><a href="{% url 'brr-venueindex' %}">Venues</a></li>
 				<li><a href="">Profile</a></li>
+				<li><a href="{% url 'brr-logout' %}">Logout</a></li>
 			</ul>
 			</div>
 		</div>

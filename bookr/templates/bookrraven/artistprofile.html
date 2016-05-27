@@ -1,33 +1,34 @@
-{% include 'bookrraven/header_logged_out.html'  %}
-	<div id="wrapper">
+{% include 'bookrraven/header_logged_in.html'  %}
+	{% load staticfiles %}
+
+<div class="container">	
+	<div id="wrapper" >
 		<div class="band-info">
-		<h2> {{artistInfo.artist_name}}</h2>
-		<p> {{artistInfo.artist_photo}} </p>
-		<p> {{artistInfo.site}} </p>
-		<p> {{artistInfo.sound}} </p>
-
-		</div>
-
-			<a href="#modal_book_artist"><button>Book Me!</button></a>
-			<!-- Artists will need their info passed, as well as a few forms i believe -->
-			<form action="{% url 'users:login' %}" method="post" id=modal_book_artist class="modal">
-				  {% csrf_token %}
-				  <div class="modal-content">
-				  <input type="hidden" name="{{artistInfo.id}}"
-					  <select name="venue_name">
-					  	{% for venue in venues %}
-					  	<option value="{{venue.name}}" >{{venue.name}}</option>
-					  	{% endfor %}
-					  </select>
-					  <label for="datepicker">Date: 
-					  	<input type="text" id="datepicker" name="datepicker">
-					  </label>
-					  <label for="messsage"> Message: 
-					    <textarea name="messsage" id="messsage" placeholder="Tell them why you want them!"></textarea>
-					  </label>
-					  <input type="submit" value="Book" />
-				  </div>
-			</form>
-		
+		<h2 class="white-text">{{artistInfo.artist_name}}</h2>
+		<img src="{% static 'bookr/img/black_tones_Zh8tqg1.jpg' %}" alt="{{artistInfo.artist_name}}" width="30%">
+		<p class="white-text">{{artistInfo.site}}</p>
+		<p class="white-text">{{artistInfo.sound}}</p>
 	</div>
-{% include 'bookrraven/footer.html'  %}
+	<button class="btn waves-effect waves-light orange darken-3 modal-trigger" data-target="modal_book_artist">Book Artist</button>
+	<div id=modal_book_artist class="modal">
+		<div class="modal-content">
+			<form enctype="multipart/form-data" action="{% url 'bbr-addevent' %}" method="post">
+					{% csrf_token %}
+				<input type="hidden" name="artist_id" value="{{artistInfo.id}}">
+				<input type="hidden" name="status" value="Pending Event">
+				<label for="venue_id">Venue</label>
+				<select name="venue_id">
+					{% for venue in venueInfo %}
+					{% if venue.booker_id == request.session.logged_user.id %}
+					<option value="{{venue.id}}" >{{venue.name}}</option>
+					{% endif %}
+					{% endfor %}
+				</select>
+				<label for="datepicker">Date:</label>
+				<input type="text" id="datepicker" name="event_date">
+				<button class="btn waves-effect waves-light orange darken-4" type="submit" name="action">BOOK</button>
+			</form>
+		</div>
+	</div>
+</div>		
+{% include 'bookrraven/footer_in.html'  %}
