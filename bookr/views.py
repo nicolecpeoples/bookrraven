@@ -93,40 +93,25 @@ class VenueIndex(View):
 		
 
 class Venues(View):
+
+
+	def get(self,request, venue_id):
+		get_venue = Venue.objects.get(id=venue_id)
+		context= {
+			'get_venue': get_venue
 	def get(self,request):
 		venueInfo = Venue.objects.all()
 		print(venueInfo)
 		context = {
 			'venueInfo': venueInfo,
+
 		}
 		return render(request, 'bookrraven/venue.html', context)
 		
 
-	def getVenueInfo(self, request):
-		# get venue info
-		pass
-
 	def getEventList(self, request):
 		# get event list info
 		pass
-
-	# def get(self,request, venue_id):
-	# 	get_venue = Venue.objects.get(id=venue_id)
-	# 	context= {
-	# 		'get_venue': get_venue
-	# def get(self,request):
-	# 	venueInfo = Venue.objects.all()
-	# 	print(venueInfo)
-	# 	context = {
-	# 		'venueInfo': venueInfo,
-
-	# 	}
-	# 	return render(request, 'bookrraven/venue.html', context)
-		
-
-	# def getEventList(self, request):
-	# 	# get event list info
-	# 	pass
 
 class SingleArtist(View):
 	def get(self, request, artist_id):
