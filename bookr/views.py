@@ -2,7 +2,10 @@ from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.contrib.auth import forms, logout, authenticate, login
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from .models import Artist, Venue, Event, Message, Comment
+from .forms import bbrRegForm
+from .models import Artist, Venue, People
+from django.contrib.auth.models import User
+
 
 class Main(View):
     def get(self, request):
@@ -90,7 +93,6 @@ class VenueIndex(View):
 		
 
 class Venues(View):
-
 	def get(self,request, venue_id):
 		get_venue = Venue.objects.get(id=venue_id)
 		context= {

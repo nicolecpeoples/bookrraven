@@ -1,20 +1,20 @@
-{% include 'bookrraven/header_logged_out.html'  %}
+{% include 'bookrraven/header_logged_in.html'  %}
 	<div id="wrapper">
-		<div id="venue_content">
-			<!-- stuff about the venue -->
-			<img src="" alt="we tried....">
-			<p>Stuff about the venue !</p>
+		<div class="container section">
+			<div id="venue_content">
+				<!-- stuff about the venue -->
+				<img src="{{get_venue.venue_photo.path}}" alt="we tried....">
+				<p>{{get_venue.venue_name}}</p>
+			</div>
+			<div id="brr-content">
+				<!-- upcoming event_list -->
+				<ul>
+					<li><a href="">Look, an Event!</a></li>
+					<li><a href="">Look, an Event!</a></li>
+					<li><a href="">Look, an Event!</a></li>
+				</ul>
+				<a href=""><button>PLAY HERE!</button></a>
+			</div>
 		</div>
-		<div id="brr-content">
-			<!-- upcoming event_list -->
-			<ul>
-				<li><a href="">Look, an Event!</a></li>
-				<li><a href="">Look, an Event!</a></li>
-				<li><a href="">Look, an Event!</a></li>
-			</ul>
-			<a href=""><button>PLAY HERE!</button></a>
-		</div>
-		
-
 	</div>
 {% include 'bookrraven/footer.html'  %}
