@@ -1,16 +1,13 @@
 from django.shortcuts import render, redirect
 from django.views.generic import View
-<<<<<<< HEAD
 from django.contrib.auth import forms, logout, authenticate, login
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from .forms import bbrRegForm
 from .models import Artist, Venue, People
 from django.contrib.auth.models import User
-=======
 from django.contrib.auth import forms
 from django.contrib.auth import logout
 from .models import Artist, Venue, Event, Message, Comment
->>>>>>> dev
 
 class Main(View):
     def get(self, request):
@@ -97,19 +94,14 @@ class VenueIndex(View):
 		return render(request, 'bookrraven/venueindex.html', context)
 		
 
-class VenueList(View):
-	def get(self,request):
-		venueInfo = Venue.objects.all()
-		print(venueInfo)
-		context = {
-			'venueInfo': venueInfo,
+class Venues(View):
+	def get(self,request, venue_id):
+		get_venue = Venue.objects.get(id=venue_id)
+		context= {
+			'get_venue': get_venue
 		}
 		return render(request, 'bookrraven/venue.html', context)
 		
-
-	def getVenueInfo(self, request):
-		# get venue info
-		pass
 
 	def getEventList(self, request):
 		# get event list info

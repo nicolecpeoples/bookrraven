@@ -8,13 +8,9 @@ urlpatterns = [
 	url(r'^register/$', views.Register.as_view(), name='brr-register'),
 	url(r'^dashboard/$', views.Dashboard.as_view(), name='brr-dashboard'),
 	url(r'^venue/$', views.VenueIndex.as_view(), name='brr-venueindex'),
-	url(r'^venue/(?P<venue_id>\d+)', views.Venue.as_view(), name='brr-venue'),
+	url(r'^venue/(?P<venue_id>\d+)', views.Venues.as_view(), name='brr-venue'),
 	url(r'^artist/$', views.ArtistIndex.as_view(), name='brr-artistindex'),
-<<<<<<< HEAD
-	url(r'^artist/(?P<artist_id>\d+)', views.Artist.as_view(), name='bbr-artist'),
-	url(r'^logout/', views.Logout.as_view(), name='brr-logout')
-=======
+	url(r'^logout/', views.Logout.as_view(), name='brr-logout'),
 	url(r'^artist/(?P<artist_id>\d+)', views.SingleArtist.as_view(), name='bbr-artist'),
->>>>>>> dev
 	# url(r'^test/$', views.Test.as_view(), name='brr-test')
 ]
