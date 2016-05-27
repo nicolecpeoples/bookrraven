@@ -5,7 +5,8 @@
 
 	{% if venueList %}
 		{% for venue in venueList %}
-			<p><a href="">{{venue.id}}{{ venue.venue_name}}</a><p>
+		
+			<p><a href="{% url 'brr-venue' venue.id %}">{{venue.id}}{{ venue.venue_name}}</a><p>
 		{% endfor %}
 	{% endif %}
 	</div>

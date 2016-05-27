@@ -3,7 +3,7 @@
 	<h3> Artist Directory</h3>
 	{% if artistList %}
 		{% for artist in artistList %}
-			<p>{{ artist.artist_name}}<p>
+			<p><a href="{% url 'bbr-artist' artist.id %}">{{ artist.artist_name}}</a><p>
 		{% endfor %}
 	{% endif %}
 <!-- ENTER BODY OF CODE HERE -->

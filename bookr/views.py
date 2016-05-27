@@ -6,6 +6,7 @@ from .models import Artist, Venue, Event, Message, Comment
 from .forms import brrRegForm, brrLogForm
 from django.core.files.uploadedfile import SimpleUploadedFile
 
+
 class Main(View):
     def get(self, request):
         logform = brrLogForm
@@ -95,18 +96,25 @@ class VenueIndex(View):
 		
 
 class Venues(View):
+
+	def get(self,request,venue_id):
+		get_venue = Venue.objects.get(id = venue_id)
+
+		context= {
+			'get_venue': get_venue
+		}
+
+		return render(request, 'bookrraven/venueindex.html', context)
+
 	def get(self,request):
 		venueInfo = Venue.objects.all()
 		print(venueInfo)
 		context = {
 			'venueInfo': venueInfo,
+
 		}
 		return render(request, 'bookrraven/venue.html', context)
 		
-
-	def getVenueInfo(self, request):
-		# get venue info
-		pass
 
 	def getEventList(self, request):
 		# get event list info
