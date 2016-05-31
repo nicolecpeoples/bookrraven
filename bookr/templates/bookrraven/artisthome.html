@@ -1,9 +1,14 @@
 {% include 'bookrraven/header_logged_in.html'  %}
-
+{% load staticfiles %}
 	<div class="container section">
 		<div class="row">
 			<div class="col s12 m4">
-				<h4>{{artist.name}}BandAidRocks</h4>
+				<h4>
+				{% if artistInfo != None %}
+				{{artistInfo.artist_name}}
+				{% else %}
+				Please Create Your Artist Profile
+				{% endif %}</h4>
 				<div class="photo"><img src="">Artist Photo</div>
 			</div>
 		</div>
@@ -30,4 +35,4 @@
 		</div>
 	</div>
 	
-{% include 'bookrraven/footer.html'  %}
+{% include 'bookrraven/footer_in.html'  %}

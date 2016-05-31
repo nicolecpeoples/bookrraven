@@ -11,17 +11,47 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'bookr/css/style.css' %}">
 </head>
 <body class="blue-grey">
+	{% if request.user.groups == 'ART' %}
 	<nav class="orange darken-3">
 		<div class="nav-Wrapper">
 			<div class="container">
 				<div id="logo-container" class="brand-logo logo left"></div>
 				<ul class="right">
-				<li><a href="{% url 'brr-dashboard' %}">Welcome{{session.loggedin.first_name}}</a></li>
+				<li><a href="{% url 'brr-artdashboard' %}">WELCOME {{request.user.first_name}}</a></li>
 				<li><a href="{% url 'brr-venueindex' %}">Venues</a></li>
 				<li><a href="{% url 'brr-artistindex' %}">Artists</a></li>
-				<li><a href="">Profile</a></li>
+				{% if artistInfo == None %}
+				<li class="link modal-trigger" data-target="new_artist">Create Artist Profile</li>
+				{% else %}
+				<li><a href="{% url 'brr-artistinfo' artistInfo.id %}">Artist Profile</a></li>
+				{% endif %}		
 				<li><a href="{% url 'brr-logout' %}">Logout</a></li>
 			</ul>
 			</div>
 		</div>
 	</nav>
+	{% elif request.user.groups == 'BKR' %}
+	<nav class="orange darken-3">
+		<div class="nav-Wrapper">
+			<div class="container">
+				<div id="logo-container" class="brand-logo logo left"></div>
+				<ul class="right">
+				<li><a href="{% url 'brr-bkrdashboard' %}">Welcome {{request.user.first_name}}</a></li>
+				<li><a href="{% url 'brr-venueindex' %}">Venues</a></li>
+				<li><a href="{% url 'brr-artistindex' %}">Artists</a></li>
+				<li><a href="{% url 'brr-logout' %}">Logout</a></li>
+			</ul>
+			</div>
+		</div>
+	</nav>
+	{% endif %}
+	<div id=new_artist class="modal">
+		<div class="modal-content">
+		<h4 class="orange-text darken-4">Artist Profile</h4>
+			<form enctype="multipart/form-data" action="{% url 'brr-addartist' %}" method="post">
+				{% csrf_token %}
+				{{artistform.as_p}}				
+				<button class="btn waves-effect waves-light orange darken-4 right" type="submit" name="action">Create</button>
+			</form>
+		</div>
+	</div>

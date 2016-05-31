@@ -25,34 +25,16 @@ class SomeUser(AbstractBaseUser):
     def __unicode__(self):
         return self.email
 
-class People(models.Model):
-    BOOKER = 'BKR'
-    ARTIST = 'ART'
-    ACCESS_CHOICES = (
-        (BOOKER, 'Booker'),
-        (ARTIST, 'Artist')
-        )
-    first_name = models.CharField(max_length=45)
-    last_name = models.CharField(max_length=45)
-    email = models.EmailField(max_length=254)
-    user_phone = models.CharField(max_length=10)
-    access = models.CharField(max_length=3, choices=ACCESS_CHOICES)
-    hashpass = models.CharField(max_length=255)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    def __str__(self):
-		return 'ID: %s | Name: %s %s' % (self.id, self.first_name, self.last_name)
-
 class Artist(models.Model):
 	artist_name = models.CharField(max_length=100)
 	site = models.URLField(max_length=200, blank=True)
 	sound = models.URLField(max_length=200, blank=True)
-	artist_photo = models.ImageField(upload_to='photo')
+	artist_photo = models.ImageField(upload_to='bookr/media/photo/%Y/%m/%d')
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
-	contact_id = models.ForeignKey('People')
-	def __str__(self):
-		return 'ID: %s | Artist: %s | Main Contact: %s' % (self.id, self.artist_name, self.contact_id.email)
+	contact_id = models.ForeignKey('SomeUser')
+	# def __str__(self):
+	# 	return 'ID: %s | Artist: %s | Main Contact: %s' % (self.id, self.artist_name, self.contact_id.email)
 
 class Venue(models.Model):
 	SEATTLE = 'SEA'
@@ -73,10 +55,10 @@ class Venue(models.Model):
 	state= models.CharField(max_length=2, choices=STATE_CHOICES)
 	zipcode = models.CharField(max_length=5)
 	venue_phone = models.CharField(max_length=10)
-	venue_photo = models.ImageField(max_length=100)
+	venue_photo = models.ImageField(upload_to='photo/%Y/%m/%d')
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
-	booker_id = models.ForeignKey('People')
+	booker_id = models.ForeignKey('SomeUser')
 	def __str__(self):
 		return 'ID: %s | Venue: %s | Booker: %s %s' % (self.id, self.venue_name, self.booker_id.first_name, self.booker_id.last_name)	
 
@@ -103,7 +85,7 @@ class Message(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 	event_id = models.ForeignKey('Event')	
-	author_id = models.ForeignKey('People')
+	author_id = models.ForeignKey('SomeUser')
 
 class Comment(models.Model):
 	comment = models.CharField(max_length=255)
@@ -111,4 +93,4 @@ class Comment(models.Model):
 	updated_at = models.DateTimeField(auto_now=True)
 	message_id = models.ForeignKey('Message')	
 	event_id = models.ForeignKey('Event')
-	author_id = models.ForeignKey('People')
+	author_id = models.ForeignKey('SomeUser')

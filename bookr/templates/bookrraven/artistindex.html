@@ -1,11 +1,9 @@
 {% include 'bookrraven/header_logged_in.html'  %}
 	<div class="container section">
-	<h3> Artist Directory</h3>
-	{% if artistList %}
+	<h2> Artist Directory</h2>
 		{% for artist in artistList %}
-			<p><a href="{% url 'bbr-artist' artist.id %}">{{ artist.artist_name}}</a><p>
+			<h4><a class="black-text" href="{% url 'brr-artistinfo' artist.id %}">{{artist.artist_name}}</a></h4>
 		{% endfor %}
-	{% endif %}
 <!-- ENTER BODY OF CODE HERE -->
 	</div>
-{% include 'bookrraven/footer.html'  %}
+{% include 'bookrraven/footer_in.html'  %}

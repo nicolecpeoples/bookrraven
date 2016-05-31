@@ -2,8 +2,10 @@ from django.shortcuts import render, redirect, render_to_response
 from django.views.generic import View
 from django.contrib.auth import forms, logout as django_logout, authenticate, login as django_login
 from django.template import RequestContext
-from .models import Artist, Venue, Event, Message, Comment
-from .forms import brrRegForm, brrLogForm
+from django.http import HttpResponseRedirect
+from django.core.urlresolvers import reverse
+from .models import Artist, Venue, Event, Message, Comment, SomeUser
+from .forms import brrRegForm, brrLogForm, ArtistForm
 from django.core.files.uploadedfile import SimpleUploadedFile
 
 
@@ -44,9 +46,6 @@ class Login(View):
 			'form': form,
 			}, context_instance=RequestContext(request))
 
-        # else:
-        #     return render(request, 'bookrraven/landing.html', context)
-
 class Register(View):
     logform = brrLogForm
     def post(self, request):
@@ -60,21 +59,34 @@ class Register(View):
             regform.save()
             # log 'em in
             user = authenticate(email=regform.cleaned_data['email'], password=regform.cleaned_data['password1'],)
-            login(request, user)
+            django_login(request, user)
             # send them to a dashboard(it'll sort 'em out)
             if request.user.groups == 'ART':
-            	return redirect('artistdashboard/')
+            	return redirect('/artistdashboard/')
             elif request.user.groups == 'BKR':
-            	return redirect('bookerdashboard/')
+            	return redirect('/bookerdashboard/')
         else:
             return render(request, 'bookrraven/landing.html', context)
 
 class ArtistDashboard(View):
 	def get(self, request):
-		artistInfo = Artist.objects.get(contact_id=request.user.id)
-		context = {
-			'artistInfo': artistInfo,
-		}
+		artistform = ArtistForm
+		userinfo = SomeUser.objects.get(id = request.user.id)
+		try:
+			artistInfo = Artist.objects.get(contact_id = userinfo)
+		except:
+			artistInfo = None
+		if artistInfo is not None:
+			context = {
+				'artistInfo': artistInfo,
+				'artistform': artistform
+			}
+		else:
+			artistInfo = None
+			context = {
+				'artistInfo': artistInfo,
+				'artistform': artistform
+			}
 		return render(request, 'bookrraven/artisthome.html', context)
 
 
@@ -121,9 +133,17 @@ class Venues(View):
 		pass
 
 class AddArtist(View):
-	# def post(self, request)
-	# 	artistInfo = Artist(request.POST)
-	pass
+	def post(self, request):
+		form = ArtistForm(request.POST, request.FILES)
+		userinfo= SomeUser.objects.get(id = request.user.id)
+		if form.is_valid():
+			newArtist = Artist(artist_name = request.POST['artist_name'], site = request.POST['site'], sound = request.POST['sound'], artist_photo = request.FILES['artist_photo'], contact_id = userinfo)
+			newArtist.save()
+		else:
+			form = ArtistForm()
+		return redirect('/artistdashboard/')
+
+
 
 class SingleArtist(View):
 	def get(self, request, artist_id):
@@ -135,12 +155,18 @@ class SingleArtist(View):
 		}
 		return render(request, 'bookrraven/artistprofile.html', context)
 
+
+
 class ArtistIndex(View):
 	def get(self,request):
-
+		userinfo = SomeUser.objects.get(id = request.user.id)
+		artistInfo = Artist.objects.get(contact_id = userinfo)	
 		artistList = Artist.objects.all()
+		for art in artistList:
+			print art.id
 		context = {
 			'artistList': artistList,
+			'artistInfo': artistInfo
 		}
 		return render(request, 'bookrraven/artistindex.html', context)
 

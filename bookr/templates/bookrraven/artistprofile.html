@@ -1,18 +1,17 @@
 {% include 'bookrraven/header_logged_in.html'  %}
 {% load staticfiles %}
-
 <div class="container">	
 	<div id="wrapper" >
 		<div class="band-info">
 		<h2 class="white-text">{{artistInfo.artist_name}}</h2>
-		<img src="{% static 'bookr/img/black_tones_Zh8tqg1.jpg' %}" alt="{{artistInfo.artist_name}}" width="30%">
+		<img src="{% static artistInfo.artist_photo %}" alt="{{artistInfo.artist_name}}" width="30%">
 		<p class="white-text">{{artistInfo.site}}</p>
 		<p class="white-text">{{artistInfo.sound}}</p>
 	</div>
 	<button class="btn waves-effect waves-light orange darken-3 modal-trigger" data-target="modal_book_artist">Book Artist</button>
 	<div id=modal_book_artist class="modal">
 		<div class="modal-content">
-			<form enctype="multipart/form-data" action="{% url 'bbr-addevent' %}" method="post">
+			<form enctype="multipart/form-data" action="{% url 'brr-addevent' %}" method="post">
 					{% csrf_token %}
 				<input type="hidden" name="artist_id" value="{{artistInfo.id}}">
 				<input type="hidden" name="status" value="Pending Event">

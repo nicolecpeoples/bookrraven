@@ -2,19 +2,19 @@
 
 	<div class="container section">
 		<div id="landing_menu" class="row">
-			<div class="landing_menu_option col s12 m6" id="login">
+			<div class="landing_menu_option col s12 m6 l4 offset-l1" id="login">
 				<form action="{% url 'brr-login' %}" method="post">
 					{% csrf_token %}
 					{{ logform.as_p }}
-					<button class="btn waves-effect waves-light orange darken-4" type="submit" name="action">Login</button>
+					<button class="btn waves-effect waves-light orange darken-4 right" type="submit" name="action">Login</button>
 				</form>
 			</div>
 
-			<div class="landing_menu_option col s12 m6" id="register">
+			<div class="landing_menu_option col s12 m6 l4 offset-l1" id="register">
 				<form action="{% url 'brr-register' %}" method="post">
 					{% csrf_token %}
 					{{ regform.as_p }}
-					<button class="btn waves-effect waves-light orange darken-4" type="submit" name="action">Register</button>
+					<button class="btn waves-effect waves-light orange darken-4 right" type="submit" name="action">Register</button>
 				</form>
 			</div>
 		</div>

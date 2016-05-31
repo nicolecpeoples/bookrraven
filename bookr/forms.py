@@ -2,7 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate
 from django import forms
 from django.forms import ModelForm, widgets
-from .models import SomeUser, People, Event, Comment, Message, Venue, Artist
+from .models import SomeUser, Event, Comment, Message, Venue, Artist
 
 class brrRegForm(forms.ModelForm):
     BOOKER = 'BKR'
@@ -62,7 +62,10 @@ class NewEventForm(forms.ModelForm):
 
 
 class ArtistForm(forms.ModelForm):
-    artist_name = forms.CharField(max_length=100)
-    site = forms.URLField(max_length=200, required=False)
-    sound = forms.URLField(max_length=200, required=False)
-    # artist_photo = forms.ImageField(upload_to='photo')
+    artist_name = forms.CharField(label='Artist Name', widget=forms.widgets.TextInput)
+    site = forms.URLField(label='Website', widget=forms.widgets.TextInput, required=False)
+    sound = forms.URLField(label='Sample Sound', widget=forms.widgets.TextInput, required=False)
+    artist_photo = forms.ImageField(label='Artist Photo')
+    class Meta:
+        model = Artist
+        fields = ['artist_name', 'site', 'sound', 'artist_photo']
