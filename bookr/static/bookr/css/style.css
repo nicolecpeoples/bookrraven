@@ -21,7 +21,7 @@ p.btm-margin {
 }
 
 .logo {
-	background: url("/static/bookr/BookRRaven_light.png");
+	background: url("/static/bookr/images/BookRRaven_light.png");
 	background-position: center;
 	background-size: contain;
 	background-repeat: no-repeat;
@@ -43,14 +43,14 @@ p.btm-margin {
 
 .photo {
 	height: 200px;
-	background: black; 
+	background: black;
 }
 
 body {
   margin: 0;
-  background: #000; 
+  background: #000;
 }
-video { 
+video {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -60,16 +60,16 @@ video {
     height: auto;
     z-index: -100;
     transform: translateX(-50%) translateY(-50%);
- background: url('{% static 'bookr/img/Band.jpg' %}') no-repeat;
+ background: url({% static 'bookr/img/Band.jpg' %}) no-repeat;
   background-size: cover;
   transition: 1s opacity;
 }
-.stopfade { 
+.stopfade {
    opacity: .5;
 }
 
-@media screen and (max-width: 500px) { 
-  div{width:70%;} 
+@media screen and (max-width: 500px) {
+  div{width:70%;}
 }
 @media screen and (max-device-width: 800px) {
   html { background: url({% static 'bookr/img/Band.jpg' %}) #000 no-repeat center center fixed; }

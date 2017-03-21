@@ -1,10 +1,10 @@
 {% include 'bookrraven/header_logged_in.html'  %}
 {% load staticfiles %}
-<div class="container">	
+<div class="container">
 	<div id="wrapper" >
 		<div class="band-info">
 		<h2 class="white-text">{{artistInfo.artist_name}}</h2>
-		<img src="{% static artistInfo.artist_photo %}" alt="{{artistInfo.artist_name}}" width="30%">
+		<img src="{{artistInfo.artist_photo.url}}" alt="{{artistInfo.artist_name}}" width="30%">
 		<p class="white-text">{{artistInfo.site}}</p>
 		<p class="white-text">{{artistInfo.sound}}</p>
 	</div>
@@ -29,5 +29,5 @@
 			</form>
 		</div>
 	</div>
-</div>		
+</div>
 {% include 'bookrraven/footer_in.html'  %}

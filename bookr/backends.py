@@ -1,28 +1,28 @@
 from django.conf import settings
 from django.contrib.auth.hashers import check_password
-from .models import SomeUser
+from .models import User
 
 class EmailAuthBackend(object):
     """
     A custom authentication backend. Allows users to log in using their email address.
     """
 
-    def authenticate(self, email=None, password=None):
+    def authenticate(self, username=None, password=None):
         """
         Authentication method
         """
         try:
-            user = SomeUser.objects.get(email=email)
+            user = User.objects.get(username=username)
             if user.check_password(password):
                 return user
-        except SomeUser.DoesNotExist:
+        except User.DoesNotExist:
             return None
 
     def get_user(self, user_id):
         try:
-            user = SomeUser.objects.get(pk=user_id)
+            user = User.objects.get(pk=user_id)
             if user.is_active:
                 return user
             return None
-        except SomeUser.DoesNotExist:
+        except User.DoesNotExist:
             return None

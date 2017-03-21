@@ -31,7 +31,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'django_extensions',
     'bookr.apps.BookrConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -103,7 +102,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = 'bookr.SomeUser'
+AUTH_USER_MODEL = 'bookr.User'
 AUTHENTICATION_BACKENDS = ['bookr.backends.EmailAuthBackend', ]
 
 # Internationalization
@@ -124,13 +123,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+# Media Files (Imported documents, images, video)
+#
 
-# Absolute filesystem path to the directory that will hold user-uploaded files.
-# Example: "/home2/media/media.lawrence.com/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, 'bookr\static\\bookr\media')
-print MEDIA_ROOT
-
-# URL that handles the media served from MEDIA_ROOT. Make sure to use a
-# trailing slash.
-# Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
 MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
